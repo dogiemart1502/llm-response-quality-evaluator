@@ -1,0 +1,112 @@
+{
+  "annotator": "reviewer-1",
+  "description": "Illustrative reference judgments written alongside the sample dataset to demonstrate the evaluation workflow. They are example annotations, not results from a study. 'python-reverse-a' is intentionally left unjudged to show how unscored criteria are reported.",
+  "judgments": [
+    {
+      "item_id": "photosynthesis-a",
+      "scores": {
+        "accuracy": {
+          "score": 5,
+          "feedback": "All claims are correct: light energy is converted to chemical energy in chloroplasts, CO2 and water are the inputs, glucose and oxygen the outputs.",
+          "evidence": ["Standard introductory biology description of photosynthesis (6CO2 + 6H2O + light -> C6H12O6 + 6O2)."]
+        },
+        "relevance": {"score": 5, "feedback": "Directly explains what photosynthesis is, with no digressions."},
+        "clarity": {"score": 5, "feedback": "Logical order (what, where, inputs, outputs, purpose) in short, plain sentences."},
+        "instruction_following": {"score": 5, "feedback": "50 words, well within the 80-word limit."}
+      }
+    },
+    {
+      "item_id": "photosynthesis-b",
+      "scores": {
+        "accuracy": {
+          "score": 2,
+          "feedback": "Reverses the gas exchange: during photosynthesis plants take in carbon dioxide and release oxygen, not the other way round. The rest is correct, but this is a core error.",
+          "evidence": ["Overall reaction: 6CO2 + 6H2O + light -> C6H12O6 + 6O2."]
+        },
+        "relevance": {"score": 5, "feedback": "Stays on the topic of photosynthesis throughout."},
+        "clarity": {"score": 4, "feedback": "Readable, but the second sentence packs several ideas into one long clause."},
+        "instruction_following": {"score": 5, "feedback": "Within the 80-word limit."}
+      },
+      "comment": "Automated accuracy is high here because every reference term appears; the error is in how the terms are related. Good example of why human review is required."
+    },
+    {
+      "item_id": "exercise-a",
+      "scores": {
+        "accuracy": {
+          "score": 5,
+          "feedback": "All three benefits are well supported: cardiovascular health, mental health, and weight/strength.",
+          "evidence": ["Widely published public-health guidance on physical activity benefits."]
+        },
+        "relevance": {
+          "score": 5,
+          "feedback": "Every bullet is a benefit of exercise. The automated relevance score is low only because the bullets do not repeat the words 'benefit' or 'exercise'."
+        },
+        "clarity": {"score": 5, "feedback": "Each bullet states one benefit and a brief reason."},
+        "instruction_following": {"score": 5, "feedback": "Exactly three items, formatted as a bulleted list."}
+      }
+    },
+    {
+      "item_id": "exercise-b",
+      "scores": {
+        "accuracy": {"score": 4, "feedback": "The listed benefits are reasonable; the claim about 'a very large number of studies' is vague but not wrong."},
+        "relevance": {"score": 4, "feedback": "On topic, though padded with filler about research."},
+        "clarity": {"score": 1, "feedback": "A single 78-word run-on sentence that repeats 'exercise' many times; very hard to scan."},
+        "instruction_following": {"score": 1, "feedback": "Ignores both instructions: not a bulleted list, and gives five benefits instead of three."}
+      }
+    },
+    {
+      "item_id": "seasons-a",
+      "scores": {
+        "accuracy": {
+          "score": 5,
+          "feedback": "Correctly attributes the seasons to axial tilt (about 23.5 degrees) and explicitly rules out distance from the Sun.",
+          "evidence": ["Earth's obliquity is about 23.4 degrees; perihelion occurs in early January, during northern-hemisphere winter."]
+        },
+        "relevance": {"score": 5, "feedback": "Answers exactly the question asked."},
+        "clarity": {"score": 5, "feedback": "Two clear sentences: cause, then mechanism."},
+        "instruction_following": {"score": 5, "feedback": "Exactly two sentences."}
+      }
+    },
+    {
+      "item_id": "seasons-b",
+      "scores": {
+        "accuracy": {
+          "score": 1,
+          "feedback": "States the common misconception that seasons are caused by distance from the Sun. Earth is actually closest to the Sun in early January, during northern-hemisphere winter.",
+          "evidence": ["Perihelion occurs in early January (northern-hemisphere winter)."]
+        },
+        "relevance": {"score": 5, "feedback": "Addresses the cause of the seasons, albeit incorrectly; relevance is judged separately from accuracy."},
+        "clarity": {"score": 5, "feedback": "Clearly written, which makes the error more persuasive."},
+        "instruction_following": {"score": 5, "feedback": "Two sentences as requested."}
+      },
+      "comment": "The automated accuracy signal matched the reference point 'not caused by distance from the Sun' lexically despite the response asserting the opposite (negation is not detected)."
+    },
+    {
+      "item_id": "json-capital-a",
+      "scores": {
+        "accuracy": {"score": 5, "feedback": "Paris is the capital of France.", "evidence": ["Paris is the capital of France."]},
+        "relevance": {"score": 5, "feedback": "Returns exactly the requested object."},
+        "clarity": {"score": 5, "feedback": "Minimal, well-formed JSON."},
+        "instruction_following": {"score": 5, "feedback": "Valid JSON with exactly the keys 'name' and 'capital'."}
+      }
+    },
+    {
+      "item_id": "json-capital-b",
+      "scores": {
+        "accuracy": {"score": 5, "feedback": "The data inside the JSON is correct.", "evidence": ["Paris is the capital of France."]},
+        "relevance": {"score": 4, "feedback": "Correct content, but adds conversational filler that was not requested."},
+        "clarity": {"score": 4, "feedback": "Easy to read for a person, but the surrounding prose obscures the payload."},
+        "instruction_following": {"score": 2, "feedback": "The request was for a JSON object; the extra text means the output cannot be parsed as JSON directly."}
+      }
+    },
+    {
+      "item_id": "python-reverse-b",
+      "scores": {
+        "accuracy": {"score": 2, "feedback": "The statements about Java are broadly true, but none of it answers how to reverse a Python list, so it gives the user no correct answer to their question."},
+        "relevance": {"score": 1, "feedback": "Answers a different question (Java arrays) from the one asked (Python lists)."},
+        "clarity": {"score": 4, "feedback": "Well written, but clarity cannot rescue an off-topic answer."},
+        "instruction_following": {"score": 1, "feedback": "Does not answer the question in the requested language (Python)."}
+      }
+    }
+  ]
+}
