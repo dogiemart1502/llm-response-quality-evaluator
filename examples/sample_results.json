@@ -1,0 +1,1766 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-17T18:28:02+00:00",
+  "tool": {
+    "name": "llm-response-quality-evaluator",
+    "version": "0.1.0"
+  },
+  "dataset": {
+    "name": "sample-general-knowledge-v1",
+    "description": "Hand-written sample responses of varying quality for demonstrating the evaluator. 'sample-model-a/b' are placeholder labels, not real models. Reference key points were written by a human and are the only basis for the automated accuracy signal.",
+    "items": 10
+  },
+  "methodology": {
+    "scoring_policy": "Human scores take precedence over automated scores for each criterion. Automated scores fill gaps only where no human score exists and are reported separately for comparison. Overall = weighted mean of available final criterion scores (weights re-normalised over scored criteria); 'complete' is false when any criterion has no score.",
+    "automated_scoring_enabled": true,
+    "automated_scoring_disclaimer": "Automated scores are heuristic signals, not verified judgments. The accuracy signal measures lexical agreement with human-supplied reference key points and does not verify facts independently.",
+    "score_sources": {
+      "human": "Score and feedback provided by a human reviewer (authoritative).",
+      "automated": "Score computed by deterministic heuristics (a signal, not a verified judgment)."
+    }
+  },
+  "rubric": {
+    "scale": {
+      "min": 1,
+      "max": 5
+    },
+    "criteria": [
+      {
+        "key": "accuracy",
+        "name": "Accuracy",
+        "description": "Factual correctness of the claims in the response. Human reviewers should cite evidence (a source, a reference answer, or reasoning) for their score.",
+        "levels": {
+          "1": "Mostly incorrect or contains serious factual errors / fabrications.",
+          "2": "Contains significant errors that undermine the answer.",
+          "3": "Generally correct but with notable errors or omissions.",
+          "4": "Correct with only minor imprecision.",
+          "5": "Fully correct; no factual errors identified."
+        },
+        "automated_proxy": "Coverage of human-supplied reference key points (lexical match). This measures agreement with the reference, NOT truth: it cannot detect contradictions, negation, or errors that are absent from the reference. Not scored when no reference is given.",
+        "weight": 0.35
+      },
+      {
+        "key": "relevance",
+        "name": "Relevance",
+        "description": "How directly the response addresses the user's prompt.",
+        "levels": {
+          "1": "Off-topic; does not address the prompt.",
+          "2": "Mostly unrelated, with only passing reference to the prompt.",
+          "3": "Partially addresses the prompt or includes substantial tangents.",
+          "4": "Addresses the prompt with minor digressions.",
+          "5": "Fully focused on what was asked."
+        },
+        "automated_proxy": "Fraction of the prompt's content terms that appear in the response. A lexical proxy: it misses paraphrases and cannot judge whether the topic is handled well.",
+        "weight": 0.2
+      },
+      {
+        "key": "clarity",
+        "name": "Clarity",
+        "description": "How easy the response is to read and understand.",
+        "levels": {
+          "1": "Very hard to follow; confusing or incoherent.",
+          "2": "Difficult to follow; poorly organised or overly convoluted.",
+          "3": "Understandable but could be clearer or better structured.",
+          "4": "Clear and well organised with minor issues.",
+          "5": "Exceptionally clear, concise, and well structured."
+        },
+        "automated_proxy": "Readability heuristics: sentence length, Flesch reading ease, duplicated sentences and term repetition. Does not assess logical coherence.",
+        "weight": 0.2
+      },
+      {
+        "key": "instruction_following",
+        "name": "Instruction Following",
+        "description": "Whether the response obeys explicit constraints in the prompt.",
+        "levels": {
+          "1": "Ignores the instructions.",
+          "2": "Follows few of the instructions.",
+          "3": "Follows some instructions but misses important ones.",
+          "4": "Follows nearly all instructions with a minor deviation.",
+          "5": "Follows every instruction."
+        },
+        "automated_proxy": "Fraction of machine-checkable constraints satisfied (word/sentence limits, required or forbidden phrases, list/JSON format, item count). Only checks constraints that were declared in the dataset. Not scored when no constraints are declared.",
+        "weight": 0.25
+      }
+    ]
+  },
+  "summary": {
+    "items_evaluated": 10,
+    "items_with_human_judgment": 9,
+    "items_complete": 9,
+    "mean_overall": 3.98,
+    "criteria": {
+      "accuracy": {
+        "mean_final": 3.78,
+        "mean_human": 3.78,
+        "mean_automated": 4.22,
+        "scored_items": 9
+      },
+      "relevance": {
+        "mean_final": 4.2,
+        "mean_human": 4.33,
+        "mean_automated": 3.9,
+        "scored_items": 10
+      },
+      "clarity": {
+        "mean_final": 4.3,
+        "mean_human": 4.22,
+        "mean_automated": 4.6,
+        "scored_items": 10
+      },
+      "instruction_following": {
+        "mean_final": 3.78,
+        "mean_human": 3.78,
+        "mean_automated": 4.25,
+        "scored_items": 9
+      }
+    },
+    "by_model": {
+      "sample-model-a": {
+        "items": 5,
+        "mean_overall": 4.8
+      },
+      "sample-model-b": {
+        "items": 5,
+        "mean_overall": 3.16
+      }
+    },
+    "human_vs_automated_agreement": {
+      "per_criterion": {
+        "accuracy": {
+          "pairs": 9,
+          "exact_agreement": 0.56,
+          "within_one": 0.78,
+          "mean_absolute_difference": 0.89,
+          "mean_signed_difference": -0.44
+        },
+        "relevance": {
+          "pairs": 9,
+          "exact_agreement": 0.44,
+          "within_one": 0.78,
+          "mean_absolute_difference": 1.0,
+          "mean_signed_difference": 0.33
+        },
+        "clarity": {
+          "pairs": 9,
+          "exact_agreement": 0.67,
+          "within_one": 1.0,
+          "mean_absolute_difference": 0.33,
+          "mean_signed_difference": -0.33
+        },
+        "instruction_following": {
+          "pairs": 8,
+          "exact_agreement": 0.88,
+          "within_one": 1.0,
+          "mean_absolute_difference": 0.12,
+          "mean_signed_difference": -0.12
+        }
+      },
+      "pooled": {
+        "pairs": 35,
+        "exact_agreement": 0.63,
+        "within_one": 0.89,
+        "mean_absolute_difference": 0.6,
+        "mean_signed_difference": -0.14
+      }
+    },
+    "items_needing_review": [
+      "photosynthesis-b",
+      "exercise-a",
+      "seasons-b",
+      "python-reverse-b"
+    ]
+  },
+  "results": [
+    {
+      "item_id": "photosynthesis-a",
+      "model": "sample-model-a",
+      "prompt": "Explain what photosynthesis is in no more than 80 words.",
+      "response": "Photosynthesis is the process plants, algae and some bacteria use to convert light energy into chemical energy. Inside chloroplasts, chlorophyll absorbs sunlight, which powers reactions that combine carbon dioxide and water to produce glucose. Oxygen is released as a by-product. The glucose stores energy the organism uses to grow.",
+      "reference_key_points": [
+        "Converts light energy into chemical energy",
+        "Uses carbon dioxide and water",
+        "Produces glucose and releases oxygen",
+        "Takes place in chloroplasts using chlorophyll"
+      ],
+      "constraints": {
+        "max_words": 80
+      },
+      "criteria": {
+        "accuracy": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "All claims are correct: light energy is converted to chemical energy in chloroplasts, CO2 and water are the inputs, glucose and oxygen the outputs.",
+            "annotator": "reviewer-1",
+            "evidence": [
+              "Standard introductory biology description of photosynthesis (6CO2 + 6H2O + light -> C6H12O6 + 6O2)."
+            ]
+          },
+          "automated": {
+            "score": 4,
+            "source": "automated",
+            "feedback": "Matched 3 of 4 reference key points. Not found: \"Takes place in chloroplasts using chlorophyll\". This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 3,
+              "key_points_total": 4,
+              "coverage": 0.75,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "Converts light energy into chemical energy",
+                  "term_coverage": 1.0
+                },
+                {
+                  "key_point": "Uses carbon dioxide and water",
+                  "term_coverage": 1.0
+                },
+                {
+                  "key_point": "Produces glucose and releases oxygen",
+                  "term_coverage": 1.0
+                },
+                {
+                  "key_point": "Takes place in chloroplasts using chlorophyll",
+                  "term_coverage": 0.25
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 1,
+          "needs_review": false
+        },
+        "relevance": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Directly explains what photosynthesis is, with no digressions.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Response uses 1 of 1 topical prompt terms. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 1.0,
+              "prompt_terms": [
+                "photosy"
+              ],
+              "missing_terms": []
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "clarity": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Logical order (what, where, inputs, outputs, purpose) in short, plain sentences.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 50,
+              "sentence_count": 4,
+              "average_sentence_length": 12.5,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 38.48,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.091
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "50 words, well within the 80-word limit.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Satisfied 1 of 1 declared constraints.",
+            "signals": {
+              "method": "declared_constraint_checks",
+              "checks_passed": 1,
+              "checks_total": 1,
+              "checks": [
+                {
+                  "check": "max_words",
+                  "passed": true,
+                  "detail": "50 words (limit 80)"
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 5.0,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 5.0,
+      "automated_overall": 4.65,
+      "annotator": "reviewer-1",
+      "reviewer_comment": null,
+      "needs_review": false
+    },
+    {
+      "item_id": "photosynthesis-b",
+      "model": "sample-model-b",
+      "prompt": "Explain what photosynthesis is in no more than 80 words.",
+      "response": "Photosynthesis is how plants make food. Using light energy captured by chlorophyll in their chloroplasts, plants take in oxygen and water and release carbon dioxide, turning the light energy into chemical energy stored as glucose.",
+      "reference_key_points": [
+        "Converts light energy into chemical energy",
+        "Uses carbon dioxide and water",
+        "Produces glucose and releases oxygen",
+        "Takes place in chloroplasts using chlorophyll"
+      ],
+      "constraints": {
+        "max_words": 80
+      },
+      "criteria": {
+        "accuracy": {
+          "final_score": 2,
+          "final_source": "human",
+          "human": {
+            "score": 2,
+            "source": "human",
+            "feedback": "Reverses the gas exchange: during photosynthesis plants take in carbon dioxide and release oxygen, not the other way round. The rest is correct, but this is a core error.",
+            "annotator": "reviewer-1",
+            "evidence": [
+              "Overall reaction: 6CO2 + 6H2O + light -> C6H12O6 + 6O2."
+            ]
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Matched 4 of 4 reference key points. This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 4,
+              "key_points_total": 4,
+              "coverage": 1.0,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "Converts light energy into chemical energy",
+                  "term_coverage": 0.75
+                },
+                {
+                  "key_point": "Uses carbon dioxide and water",
+                  "term_coverage": 0.75
+                },
+                {
+                  "key_point": "Produces glucose and releases oxygen",
+                  "term_coverage": 0.75
+                },
+                {
+                  "key_point": "Takes place in chloroplasts using chlorophyll",
+                  "term_coverage": 0.75
+                }
+              ]
+            }
+          },
+          "human_minus_automated": -3,
+          "needs_review": true
+        },
+        "relevance": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Stays on the topic of photosynthesis throughout.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Response uses 1 of 1 topical prompt terms. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 1.0,
+              "prompt_terms": [
+                "photosy"
+              ],
+              "missing_terms": []
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "clarity": {
+          "final_score": 4,
+          "final_source": "human",
+          "human": {
+            "score": 4,
+            "source": "human",
+            "feedback": "Readable, but the second sentence packs several ideas into one long clause.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 35,
+              "sentence_count": 2,
+              "average_sentence_length": 17.5,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 34.38,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.125
+            }
+          },
+          "human_minus_automated": -1,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Within the 80-word limit.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Satisfied 1 of 1 declared constraints.",
+            "signals": {
+              "method": "declared_constraint_checks",
+              "checks_passed": 1,
+              "checks_total": 1,
+              "checks": [
+                {
+                  "check": "max_words",
+                  "passed": true,
+                  "detail": "35 words (limit 80)"
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 3.75,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 3.75,
+      "automated_overall": 5.0,
+      "annotator": "reviewer-1",
+      "reviewer_comment": "Automated accuracy is high here because every reference term appears; the error is in how the terms are related. Good example of why human review is required.",
+      "needs_review": true
+    },
+    {
+      "item_id": "exercise-a",
+      "model": "sample-model-a",
+      "prompt": "List three benefits of regular exercise as a bulleted list.",
+      "response": "- Improves cardiovascular health by strengthening the heart and lowering blood pressure.\n- Supports mental health by reducing symptoms of stress, anxiety and depression.\n- Helps with weight management and builds muscle strength.",
+      "reference_key_points": [
+        "Improves heart or cardiovascular health",
+        "Benefits mental health or mood",
+        "Helps weight management",
+        "Builds muscle strength"
+      ],
+      "constraints": {
+        "format": "bullet_list",
+        "item_count": 3
+      },
+      "criteria": {
+        "accuracy": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "All three benefits are well supported: cardiovascular health, mental health, and weight/strength.",
+            "annotator": "reviewer-1",
+            "evidence": [
+              "Widely published public-health guidance on physical activity benefits."
+            ]
+          },
+          "automated": {
+            "score": 4,
+            "source": "automated",
+            "feedback": "Matched 3 of 4 reference key points. Not found: \"Benefits mental health or mood\". This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 3,
+              "key_points_total": 4,
+              "coverage": 0.75,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "Improves heart or cardiovascular health",
+                  "term_coverage": 1.0
+                },
+                {
+                  "key_point": "Benefits mental health or mood",
+                  "term_coverage": 0.5
+                },
+                {
+                  "key_point": "Helps weight management",
+                  "term_coverage": 1.0
+                },
+                {
+                  "key_point": "Builds muscle strength",
+                  "term_coverage": 1.0
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 1,
+          "needs_review": false
+        },
+        "relevance": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Every bullet is a benefit of exercise. The automated relevance score is low only because the bullets do not repeat the words 'benefit' or 'exercise'.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 1,
+            "source": "automated",
+            "feedback": "Response uses 0 of 3 topical prompt terms. Absent: benefit, regular, exercis. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 0.0,
+              "prompt_terms": [
+                "benefit",
+                "regular",
+                "exercis"
+              ],
+              "missing_terms": [
+                "benefit",
+                "regular",
+                "exercis"
+              ]
+            }
+          },
+          "human_minus_automated": 4,
+          "needs_review": true
+        },
+        "clarity": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Each bullet states one benefit and a brief reason.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 30,
+              "sentence_count": 3,
+              "average_sentence_length": 10.0,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 44.41,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.091
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Exactly three items, formatted as a bulleted list.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Satisfied 2 of 2 declared constraints.",
+            "signals": {
+              "method": "declared_constraint_checks",
+              "checks_passed": 2,
+              "checks_total": 2,
+              "checks": [
+                {
+                  "check": "format=bullet_list",
+                  "passed": true,
+                  "detail": "bulleted list (3 bullet lines found)"
+                },
+                {
+                  "check": "item_count",
+                  "passed": true,
+                  "detail": "3 list items (expected 3)"
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 5.0,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 5.0,
+      "automated_overall": 3.85,
+      "annotator": "reviewer-1",
+      "reviewer_comment": null,
+      "needs_review": true
+    },
+    {
+      "item_id": "exercise-b",
+      "model": "sample-model-b",
+      "prompt": "List three benefits of regular exercise as a bulleted list.",
+      "response": "There are many benefits of exercise and exercise is something that most people should consider doing because exercise has been shown in a very large number of studies conducted over many decades by researchers in many different countries to improve heart health, and exercise also helps your mood, and exercise can help with weight, and exercise can make you stronger, and exercise may even help you sleep better at night, so overall exercise is very good for you.",
+      "reference_key_points": [
+        "Improves heart or cardiovascular health",
+        "Benefits mental health or mood",
+        "Helps weight management",
+        "Builds muscle strength"
+      ],
+      "constraints": {
+        "format": "bullet_list",
+        "item_count": 3
+      },
+      "criteria": {
+        "accuracy": {
+          "final_score": 4,
+          "final_source": "human",
+          "human": {
+            "score": 4,
+            "source": "human",
+            "feedback": "The listed benefits are reasonable; the claim about 'a very large number of studies' is vague but not wrong.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 4,
+            "source": "automated",
+            "feedback": "Matched 3 of 4 reference key points. Not found: \"Builds muscle strength\". This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 3,
+              "key_points_total": 4,
+              "coverage": 0.75,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "Improves heart or cardiovascular health",
+                  "term_coverage": 0.75
+                },
+                {
+                  "key_point": "Benefits mental health or mood",
+                  "term_coverage": 0.75
+                },
+                {
+                  "key_point": "Helps weight management",
+                  "term_coverage": 0.667
+                },
+                {
+                  "key_point": "Builds muscle strength",
+                  "term_coverage": 0.0
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "relevance": {
+          "final_score": 4,
+          "final_source": "human",
+          "human": {
+            "score": 4,
+            "source": "human",
+            "feedback": "On topic, though padded with filler about research.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 4,
+            "source": "automated",
+            "feedback": "Response uses 2 of 3 topical prompt terms. Absent: regular. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 0.667,
+              "prompt_terms": [
+                "benefit",
+                "regular",
+                "exercis"
+              ],
+              "missing_terms": [
+                "regular"
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "clarity": {
+          "final_score": 1,
+          "final_source": "human",
+          "human": {
+            "score": 1,
+            "source": "human",
+            "feedback": "A single 78-word run-on sentence that repeats 'exercise' many times; very hard to scan.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 1,
+            "source": "automated",
+            "feedback": "Readability issues: very long sentences (average 78 words); 100% of sentences exceed 40 words; low reading ease (Flesch -9). Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 78,
+              "sentence_count": 1,
+              "average_sentence_length": 78.0,
+              "long_sentence_ratio": 1.0,
+              "flesch_reading_ease": -9.0,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.073
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 1,
+          "final_source": "human",
+          "human": {
+            "score": 1,
+            "source": "human",
+            "feedback": "Ignores both instructions: not a bulleted list, and gives five benefits instead of three.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 1,
+            "source": "automated",
+            "feedback": "Satisfied 0 of 2 declared constraints. Failed: format=bullet_list - bulleted list (0 bullet lines found); item_count - 0 list items (expected 3).",
+            "signals": {
+              "method": "declared_constraint_checks",
+              "checks_passed": 0,
+              "checks_total": 2,
+              "checks": [
+                {
+                  "check": "format=bullet_list",
+                  "passed": false,
+                  "detail": "bulleted list (0 bullet lines found)"
+                },
+                {
+                  "check": "item_count",
+                  "passed": false,
+                  "detail": "0 list items (expected 3)"
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 2.65,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 2.65,
+      "automated_overall": 2.65,
+      "annotator": "reviewer-1",
+      "reviewer_comment": null,
+      "needs_review": false
+    },
+    {
+      "item_id": "seasons-a",
+      "model": "sample-model-a",
+      "prompt": "Summarize the main cause of the seasons on Earth in two sentences.",
+      "response": "Seasons happen because Earth's axis is tilted about 23.5 degrees relative to its orbit around the Sun. As Earth orbits, this tilt changes the angle and intensity of sunlight each hemisphere receives, so seasons are not caused by changes in distance from the Sun.",
+      "reference_key_points": [
+        "Earth's axis is tilted about 23.5 degrees",
+        "The tilt changes the angle and intensity of sunlight",
+        "Seasons are not caused by distance from the Sun"
+      ],
+      "constraints": {
+        "max_sentences": 2
+      },
+      "criteria": {
+        "accuracy": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Correctly attributes the seasons to axial tilt (about 23.5 degrees) and explicitly rules out distance from the Sun.",
+            "annotator": "reviewer-1",
+            "evidence": [
+              "Earth's obliquity is about 23.4 degrees; perihelion occurs in early January, during northern-hemisphere winter."
+            ]
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Matched 3 of 3 reference key points. This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 3,
+              "key_points_total": 3,
+              "coverage": 1.0,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "Earth's axis is tilted about 23.5 degrees",
+                  "term_coverage": 1.0
+                },
+                {
+                  "key_point": "The tilt changes the angle and intensity of sunlight",
+                  "term_coverage": 1.0
+                },
+                {
+                  "key_point": "Seasons are not caused by distance from the Sun",
+                  "term_coverage": 1.0
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "relevance": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Answers exactly the question asked.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 4,
+            "source": "automated",
+            "feedback": "Response uses 3 of 4 topical prompt terms. Absent: main. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 0.75,
+              "prompt_terms": [
+                "main",
+                "caus",
+                "season",
+                "earth"
+              ],
+              "missing_terms": [
+                "main"
+              ]
+            }
+          },
+          "human_minus_automated": 1,
+          "needs_review": false
+        },
+        "clarity": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Two clear sentences: cause, then mechanism.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 45,
+              "sentence_count": 2,
+              "average_sentence_length": 22.5,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 56.16,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.077
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Exactly two sentences.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Satisfied 1 of 1 declared constraints.",
+            "signals": {
+              "method": "declared_constraint_checks",
+              "checks_passed": 1,
+              "checks_total": 1,
+              "checks": [
+                {
+                  "check": "max_sentences",
+                  "passed": true,
+                  "detail": "2 sentences (limit 2)"
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 5.0,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 5.0,
+      "automated_overall": 4.8,
+      "annotator": "reviewer-1",
+      "reviewer_comment": null,
+      "needs_review": false
+    },
+    {
+      "item_id": "seasons-b",
+      "model": "sample-model-b",
+      "prompt": "Summarize the main cause of the seasons on Earth in two sentences.",
+      "response": "Seasons are caused by distance from the Sun: in summer Earth is closest to the Sun and in winter it is farthest away. The changing distance alters the intensity of sunlight we receive.",
+      "reference_key_points": [
+        "Earth's axis is tilted about 23.5 degrees",
+        "The tilt changes the angle and intensity of sunlight",
+        "Seasons are not caused by distance from the Sun"
+      ],
+      "constraints": {
+        "max_sentences": 2
+      },
+      "criteria": {
+        "accuracy": {
+          "final_score": 1,
+          "final_source": "human",
+          "human": {
+            "score": 1,
+            "source": "human",
+            "feedback": "States the common misconception that seasons are caused by distance from the Sun. Earth is actually closest to the Sun in early January, during northern-hemisphere winter.",
+            "annotator": "reviewer-1",
+            "evidence": [
+              "Perihelion occurs in early January (northern-hemisphere winter)."
+            ]
+          },
+          "automated": {
+            "score": 4,
+            "source": "automated",
+            "feedback": "Matched 2 of 3 reference key points. Not found: \"Earth's axis is tilted about 23.5 degrees\". This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 2,
+              "key_points_total": 3,
+              "coverage": 0.667,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "Earth's axis is tilted about 23.5 degrees",
+                  "term_coverage": 0.167
+                },
+                {
+                  "key_point": "The tilt changes the angle and intensity of sunlight",
+                  "term_coverage": 0.6
+                },
+                {
+                  "key_point": "Seasons are not caused by distance from the Sun",
+                  "term_coverage": 1.0
+                }
+              ]
+            }
+          },
+          "human_minus_automated": -3,
+          "needs_review": true
+        },
+        "relevance": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Addresses the cause of the seasons, albeit incorrectly; relevance is judged separately from accuracy.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 4,
+            "source": "automated",
+            "feedback": "Response uses 3 of 4 topical prompt terms. Absent: main. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 0.75,
+              "prompt_terms": [
+                "main",
+                "caus",
+                "season",
+                "earth"
+              ],
+              "missing_terms": [
+                "main"
+              ]
+            }
+          },
+          "human_minus_automated": 1,
+          "needs_review": false
+        },
+        "clarity": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Clearly written, which makes the error more persuasive.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 33,
+              "sentence_count": 2,
+              "average_sentence_length": 16.5,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 64.47,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.118
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Two sentences as requested.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Satisfied 1 of 1 declared constraints.",
+            "signals": {
+              "method": "declared_constraint_checks",
+              "checks_passed": 1,
+              "checks_total": 1,
+              "checks": [
+                {
+                  "check": "max_sentences",
+                  "passed": true,
+                  "detail": "2 sentences (limit 2)"
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 3.6,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 3.6,
+      "automated_overall": 4.45,
+      "annotator": "reviewer-1",
+      "reviewer_comment": "The automated accuracy signal matched the reference point 'not caused by distance from the Sun' lexically despite the response asserting the opposite (negation is not detected).",
+      "needs_review": true
+    },
+    {
+      "item_id": "json-capital-a",
+      "model": "sample-model-a",
+      "prompt": "Return a JSON object with keys 'name' and 'capital' for France.",
+      "response": "{\"name\": \"France\", \"capital\": \"Paris\"}",
+      "reference_key_points": [
+        "Capital is Paris"
+      ],
+      "constraints": {
+        "required_keywords": [
+          "name",
+          "capital"
+        ],
+        "format": "json"
+      },
+      "criteria": {
+        "accuracy": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Paris is the capital of France.",
+            "annotator": "reviewer-1",
+            "evidence": [
+              "Paris is the capital of France."
+            ]
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Matched 1 of 1 reference key points. This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 1,
+              "key_points_total": 1,
+              "coverage": 1.0,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "Capital is Paris",
+                  "term_coverage": 1.0
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "relevance": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Returns exactly the requested object.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Response uses 3 of 3 topical prompt terms. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 1.0,
+              "prompt_terms": [
+                "nam",
+                "capital",
+                "franc"
+              ],
+              "missing_terms": []
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "clarity": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Minimal, well-formed JSON.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 4,
+              "sentence_count": 1,
+              "average_sentence_length": 4.0,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 54.73,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.25
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "Valid JSON with exactly the keys 'name' and 'capital'.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Satisfied 3 of 3 declared constraints.",
+            "signals": {
+              "method": "declared_constraint_checks",
+              "checks_passed": 3,
+              "checks_total": 3,
+              "checks": [
+                {
+                  "check": "requires 'name'",
+                  "passed": true,
+                  "detail": "required phrase 'name'"
+                },
+                {
+                  "check": "requires 'capital'",
+                  "passed": true,
+                  "detail": "required phrase 'capital'"
+                },
+                {
+                  "check": "format=json",
+                  "passed": true,
+                  "detail": "valid JSON"
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 5.0,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 5.0,
+      "automated_overall": 5.0,
+      "annotator": "reviewer-1",
+      "reviewer_comment": null,
+      "needs_review": false
+    },
+    {
+      "item_id": "json-capital-b",
+      "model": "sample-model-b",
+      "prompt": "Return a JSON object with keys 'name' and 'capital' for France.",
+      "response": "Sure! Here is the JSON you asked for:\n{\"name\": \"France\", \"capital\": \"Paris\"}\nLet me know if you need anything else!",
+      "reference_key_points": [
+        "Capital is Paris"
+      ],
+      "constraints": {
+        "required_keywords": [
+          "name",
+          "capital"
+        ],
+        "forbidden_phrases": [
+          "let me know"
+        ],
+        "format": "json"
+      },
+      "criteria": {
+        "accuracy": {
+          "final_score": 5,
+          "final_source": "human",
+          "human": {
+            "score": 5,
+            "source": "human",
+            "feedback": "The data inside the JSON is correct.",
+            "annotator": "reviewer-1",
+            "evidence": [
+              "Paris is the capital of France."
+            ]
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Matched 1 of 1 reference key points. This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 1,
+              "key_points_total": 1,
+              "coverage": 1.0,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "Capital is Paris",
+                  "term_coverage": 1.0
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "relevance": {
+          "final_score": 4,
+          "final_source": "human",
+          "human": {
+            "score": 4,
+            "source": "human",
+            "feedback": "Correct content, but adds conversational filler that was not requested.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "Response uses 3 of 3 topical prompt terms. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 1.0,
+              "prompt_terms": [
+                "nam",
+                "capital",
+                "franc"
+              ],
+              "missing_terms": []
+            }
+          },
+          "human_minus_automated": -1,
+          "needs_review": false
+        },
+        "clarity": {
+          "final_score": 4,
+          "final_source": "human",
+          "human": {
+            "score": 4,
+            "source": "human",
+            "feedback": "Easy to read for a person, but the surrounding prose obscures the payload.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 20,
+              "sentence_count": 4,
+              "average_sentence_length": 5.0,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 91.78,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.091
+            }
+          },
+          "human_minus_automated": -1,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 2,
+          "final_source": "human",
+          "human": {
+            "score": 2,
+            "source": "human",
+            "feedback": "The request was for a JSON object; the extra text means the output cannot be parsed as JSON directly.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 3,
+            "source": "automated",
+            "feedback": "Satisfied 2 of 4 declared constraints. Failed: forbids 'let me know' - forbidden phrase 'let me know'; format=json - response is not valid JSON on its own.",
+            "signals": {
+              "method": "declared_constraint_checks",
+              "checks_passed": 2,
+              "checks_total": 4,
+              "checks": [
+                {
+                  "check": "requires 'name'",
+                  "passed": true,
+                  "detail": "required phrase 'name'"
+                },
+                {
+                  "check": "requires 'capital'",
+                  "passed": true,
+                  "detail": "required phrase 'capital'"
+                },
+                {
+                  "check": "forbids 'let me know'",
+                  "passed": false,
+                  "detail": "forbidden phrase 'let me know'"
+                },
+                {
+                  "check": "format=json",
+                  "passed": false,
+                  "detail": "response is not valid JSON on its own"
+                }
+              ]
+            }
+          },
+          "human_minus_automated": -1,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 3.85,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 3.85,
+      "automated_overall": 4.5,
+      "annotator": "reviewer-1",
+      "reviewer_comment": null,
+      "needs_review": false
+    },
+    {
+      "item_id": "python-reverse-b",
+      "model": "sample-model-b",
+      "prompt": "How do I reverse a list in Python?",
+      "response": "In Java you can reverse an array by swapping elements from both ends with a loop, or by converting it to a List and calling Collections.reverse. Java arrays have a fixed size, so you cannot add elements after creation.",
+      "reference_key_points": [
+        "list.reverse() reverses the list in place",
+        "Slicing with [::-1] returns a reversed copy",
+        "reversed() returns a reverse iterator"
+      ],
+      "criteria": {
+        "accuracy": {
+          "final_score": 2,
+          "final_source": "human",
+          "human": {
+            "score": 2,
+            "source": "human",
+            "feedback": "The statements about Java are broadly true, but none of it answers how to reverse a Python list, so it gives the user no correct answer to their question.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 2,
+            "source": "automated",
+            "feedback": "Matched 1 of 3 reference key points. Not found: \"Slicing with [::-1] returns a reversed copy\"; \"reversed() returns a reverse iterator\". This is lexical agreement with the reference only; it does not detect contradictions or errors outside the reference, so a human should confirm accuracy.",
+            "signals": {
+              "method": "reference_key_point_coverage",
+              "key_points_matched": 1,
+              "key_points_total": 3,
+              "coverage": 0.333,
+              "match_threshold": 0.6,
+              "per_key_point": [
+                {
+                  "key_point": "list.reverse() reverses the list in place",
+                  "term_coverage": 0.667
+                },
+                {
+                  "key_point": "Slicing with [::-1] returns a reversed copy",
+                  "term_coverage": 0.2
+                },
+                {
+                  "key_point": "reversed() returns a reverse iterator",
+                  "term_coverage": 0.333
+                }
+              ]
+            }
+          },
+          "human_minus_automated": 0,
+          "needs_review": false
+        },
+        "relevance": {
+          "final_score": 1,
+          "final_source": "human",
+          "human": {
+            "score": 1,
+            "source": "human",
+            "feedback": "Answers a different question (Java arrays) from the one asked (Python lists).",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 3,
+            "source": "automated",
+            "feedback": "Response uses 1 of 2 topical prompt terms. Absent: python. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 0.5,
+              "prompt_terms": [
+                "revers",
+                "python"
+              ],
+              "missing_terms": [
+                "python"
+              ]
+            }
+          },
+          "human_minus_automated": -2,
+          "needs_review": true
+        },
+        "clarity": {
+          "final_score": 4,
+          "final_source": "human",
+          "human": {
+            "score": 4,
+            "source": "human",
+            "feedback": "Well written, but clarity cannot rescue an off-topic answer.",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 40,
+              "sentence_count": 2,
+              "average_sentence_length": 20.0,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 59.64,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.1
+            }
+          },
+          "human_minus_automated": -1,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": 1,
+          "final_source": "human",
+          "human": {
+            "score": 1,
+            "source": "human",
+            "feedback": "Does not answer the question in the requested language (Python).",
+            "annotator": "reviewer-1",
+            "evidence": []
+          },
+          "automated": null,
+          "human_minus_automated": null,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 1.95,
+        "complete": true,
+        "criteria_used": [
+          "accuracy",
+          "relevance",
+          "clarity",
+          "instruction_following"
+        ],
+        "missing_criteria": [],
+        "score_sources": {
+          "human": 4,
+          "automated": 0
+        }
+      },
+      "human_overall": 1.95,
+      "automated_overall": null,
+      "annotator": "reviewer-1",
+      "reviewer_comment": null,
+      "needs_review": true
+    },
+    {
+      "item_id": "python-reverse-a",
+      "model": "sample-model-a",
+      "prompt": "How do I reverse a list in Python?",
+      "response": "Use my_list.reverse() to reverse a list in place, or my_list[::-1] to get a reversed copy. If you only need to iterate backwards, reversed(my_list) returns an iterator without copying the list.",
+      "criteria": {
+        "accuracy": {
+          "final_score": null,
+          "final_source": null,
+          "human": null,
+          "automated": null,
+          "human_minus_automated": null,
+          "needs_review": false
+        },
+        "relevance": {
+          "final_score": 3,
+          "final_source": "automated",
+          "human": null,
+          "automated": {
+            "score": 3,
+            "source": "automated",
+            "feedback": "Response uses 1 of 2 topical prompt terms. Absent: python. Word overlap is a rough proxy and does not recognise paraphrases.",
+            "signals": {
+              "method": "prompt_term_coverage",
+              "coverage": 0.5,
+              "prompt_terms": [
+                "revers",
+                "python"
+              ],
+              "missing_terms": [
+                "python"
+              ]
+            }
+          },
+          "human_minus_automated": null,
+          "needs_review": false
+        },
+        "clarity": {
+          "final_score": 5,
+          "final_source": "automated",
+          "human": null,
+          "automated": {
+            "score": 5,
+            "source": "automated",
+            "feedback": "No readability issues detected by the heuristics. Heuristics do not assess logical coherence or organisation.",
+            "signals": {
+              "method": "readability_deductions",
+              "word_count": 36,
+              "sentence_count": 2,
+              "average_sentence_length": 18.0,
+              "long_sentence_ratio": 0.0,
+              "flesch_reading_ease": 66.37,
+              "duplicate_sentences": 0,
+              "top_term_share": 0.095
+            }
+          },
+          "human_minus_automated": null,
+          "needs_review": false
+        },
+        "instruction_following": {
+          "final_score": null,
+          "final_source": null,
+          "human": null,
+          "automated": null,
+          "human_minus_automated": null,
+          "needs_review": false
+        }
+      },
+      "overall": {
+        "score": 4.0,
+        "complete": false,
+        "criteria_used": [
+          "relevance",
+          "clarity"
+        ],
+        "missing_criteria": [
+          "accuracy",
+          "instruction_following"
+        ],
+        "score_sources": {
+          "human": 0,
+          "automated": 2
+        }
+      },
+      "human_overall": null,
+      "automated_overall": null,
+      "annotator": null,
+      "reviewer_comment": null,
+      "needs_review": false
+    }
+  ]
+}

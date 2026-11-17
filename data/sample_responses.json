@@ -1,0 +1,119 @@
+{
+  "name": "sample-general-knowledge-v1",
+  "description": "Hand-written sample responses of varying quality for demonstrating the evaluator. 'sample-model-a/b' are placeholder labels, not real models. Reference key points were written by a human and are the only basis for the automated accuracy signal.",
+  "items": [
+    {
+      "id": "photosynthesis-a",
+      "model": "sample-model-a",
+      "prompt": "Explain what photosynthesis is in no more than 80 words.",
+      "response": "Photosynthesis is the process plants, algae and some bacteria use to convert light energy into chemical energy. Inside chloroplasts, chlorophyll absorbs sunlight, which powers reactions that combine carbon dioxide and water to produce glucose. Oxygen is released as a by-product. The glucose stores energy the organism uses to grow.",
+      "reference_key_points": [
+        "Converts light energy into chemical energy",
+        "Uses carbon dioxide and water",
+        "Produces glucose and releases oxygen",
+        "Takes place in chloroplasts using chlorophyll"
+      ],
+      "constraints": {"max_words": 80}
+    },
+    {
+      "id": "photosynthesis-b",
+      "model": "sample-model-b",
+      "prompt": "Explain what photosynthesis is in no more than 80 words.",
+      "response": "Photosynthesis is how plants make food. Using light energy captured by chlorophyll in their chloroplasts, plants take in oxygen and water and release carbon dioxide, turning the light energy into chemical energy stored as glucose.",
+      "reference_key_points": [
+        "Converts light energy into chemical energy",
+        "Uses carbon dioxide and water",
+        "Produces glucose and releases oxygen",
+        "Takes place in chloroplasts using chlorophyll"
+      ],
+      "constraints": {"max_words": 80}
+    },
+    {
+      "id": "exercise-a",
+      "model": "sample-model-a",
+      "prompt": "List three benefits of regular exercise as a bulleted list.",
+      "response": "- Improves cardiovascular health by strengthening the heart and lowering blood pressure.\n- Supports mental health by reducing symptoms of stress, anxiety and depression.\n- Helps with weight management and builds muscle strength.",
+      "reference_key_points": [
+        "Improves heart or cardiovascular health",
+        "Benefits mental health or mood",
+        "Helps weight management",
+        "Builds muscle strength"
+      ],
+      "constraints": {"format": "bullet_list", "item_count": 3}
+    },
+    {
+      "id": "exercise-b",
+      "model": "sample-model-b",
+      "prompt": "List three benefits of regular exercise as a bulleted list.",
+      "response": "There are many benefits of exercise and exercise is something that most people should consider doing because exercise has been shown in a very large number of studies conducted over many decades by researchers in many different countries to improve heart health, and exercise also helps your mood, and exercise can help with weight, and exercise can make you stronger, and exercise may even help you sleep better at night, so overall exercise is very good for you.",
+      "reference_key_points": [
+        "Improves heart or cardiovascular health",
+        "Benefits mental health or mood",
+        "Helps weight management",
+        "Builds muscle strength"
+      ],
+      "constraints": {"format": "bullet_list", "item_count": 3}
+    },
+    {
+      "id": "seasons-a",
+      "model": "sample-model-a",
+      "prompt": "Summarize the main cause of the seasons on Earth in two sentences.",
+      "response": "Seasons happen because Earth's axis is tilted about 23.5 degrees relative to its orbit around the Sun. As Earth orbits, this tilt changes the angle and intensity of sunlight each hemisphere receives, so seasons are not caused by changes in distance from the Sun.",
+      "reference_key_points": [
+        "Earth's axis is tilted about 23.5 degrees",
+        "The tilt changes the angle and intensity of sunlight",
+        "Seasons are not caused by distance from the Sun"
+      ],
+      "constraints": {"max_sentences": 2}
+    },
+    {
+      "id": "seasons-b",
+      "model": "sample-model-b",
+      "prompt": "Summarize the main cause of the seasons on Earth in two sentences.",
+      "response": "Seasons are caused by distance from the Sun: in summer Earth is closest to the Sun and in winter it is farthest away. The changing distance alters the intensity of sunlight we receive.",
+      "reference_key_points": [
+        "Earth's axis is tilted about 23.5 degrees",
+        "The tilt changes the angle and intensity of sunlight",
+        "Seasons are not caused by distance from the Sun"
+      ],
+      "constraints": {"max_sentences": 2}
+    },
+    {
+      "id": "json-capital-a",
+      "model": "sample-model-a",
+      "prompt": "Return a JSON object with keys 'name' and 'capital' for France.",
+      "response": "{\"name\": \"France\", \"capital\": \"Paris\"}",
+      "reference_key_points": ["Capital is Paris"],
+      "constraints": {"format": "json", "required_keywords": ["name", "capital"]}
+    },
+    {
+      "id": "json-capital-b",
+      "model": "sample-model-b",
+      "prompt": "Return a JSON object with keys 'name' and 'capital' for France.",
+      "response": "Sure! Here is the JSON you asked for:\n{\"name\": \"France\", \"capital\": \"Paris\"}\nLet me know if you need anything else!",
+      "reference_key_points": ["Capital is Paris"],
+      "constraints": {
+        "format": "json",
+        "required_keywords": ["name", "capital"],
+        "forbidden_phrases": ["let me know"]
+      }
+    },
+    {
+      "id": "python-reverse-b",
+      "model": "sample-model-b",
+      "prompt": "How do I reverse a list in Python?",
+      "response": "In Java you can reverse an array by swapping elements from both ends with a loop, or by converting it to a List and calling Collections.reverse. Java arrays have a fixed size, so you cannot add elements after creation.",
+      "reference_key_points": [
+        "list.reverse() reverses the list in place",
+        "Slicing with [::-1] returns a reversed copy",
+        "reversed() returns a reverse iterator"
+      ]
+    },
+    {
+      "id": "python-reverse-a",
+      "model": "sample-model-a",
+      "prompt": "How do I reverse a list in Python?",
+      "response": "Use my_list.reverse() to reverse a list in place, or my_list[::-1] to get a reversed copy. If you only need to iterate backwards, reversed(my_list) returns an iterator without copying the list."
+    }
+  ]
+}
