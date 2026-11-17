@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/dogiemart1502/llm-response-quality-evaluator/actions/workflows/tests.yml/badge.svg)](https://github.com/dogiemart1502/llm-response-quality-evaluator/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue)
 ![Dependencies](https://img.shields.io/badge/runtime%20dependencies-none-brightgreen)
 
 A Python tool for evaluating AI-generated responses with a 1–5 rubric for
@@ -31,7 +32,7 @@ It needs no paid APIs, no API keys, and no third-party runtime dependencies.
 | **Agreement analysis** | Exact agreement, agreement within one point, and mean absolute/signed difference between human and automated scores. Items where the two differ by ≥ 2 points are flagged for review. |
 | **JSON export** | A versioned schema with the methodology, rubric, per-criterion scores from each source, feedback, evidence and summary statistics. Writes are atomic. |
 | **Validation** | Schema validation with exact error locations (`items[3].constraints.max_words: must be a positive integer`), clean CLI error messages, and no tracebacks for expected errors. |
-| **Quality** | 160 pytest tests (~96% coverage), ruff lint and format checks, and GitHub Actions on Python 3.10–3.13. |
+| **Quality** | 160 pytest tests (~97% coverage), ruff lint and format checks, and GitHub Actions on Python 3.10–3.13. |
 
 ## Installation
 
@@ -357,3 +358,7 @@ llm-eval evaluate data/sample_responses.json -j data/human_judgments.json -o exa
 
 GitHub Actions runs lint, the test suite on Python 3.10–3.13, and a CLI smoke
 test on every push and pull request.
+
+## License
+
+Released under the [MIT License](LICENSE). Copyright (c) 2026 Dogie Mar Taripe.
